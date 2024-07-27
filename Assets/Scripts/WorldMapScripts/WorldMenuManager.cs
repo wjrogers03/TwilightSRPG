@@ -19,6 +19,9 @@ public class WorldMenuManager : MonoBehaviour
     // sources information from the GDM
     [Header("Additional Displays")]
     [SerializeField] GameObject world_map_reference;
+
+
+    private int test_int;
     
 
 
