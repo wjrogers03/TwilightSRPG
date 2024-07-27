@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1e8f9ef6d6b919438039cc6e88f186e, type: 3}
+  m_Name: LocationData_Swamp_WestPass
+  m_EditorClassIdentifier: 
+  Name: Swamp West Pass New
+  Description: 
+  previewart: {fileID: 0}
+  SceneName: stage_Swamp_WestPass
+  options:
+  - Explore
+  - Inspect
+  - Cancel
+  clear: 0
+  available: 0
+  accessible: 0
+  id: 030b7161-14c6-45ac-94da-8811706814a0
+  locationInfo:
+    clear: 0
+    available: 0
+    accessible: 0
