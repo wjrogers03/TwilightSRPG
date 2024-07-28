@@ -18,10 +18,10 @@ public class LocationData : ScriptableObject
     [Header("Menu Generation")]
     [SerializeField] public List<string> options = new List<string>();
 
-    [Header("Location Tracking Info")]
-    [SerializeField] public bool clear;
-    [SerializeField] public bool available;
-    [SerializeField] public bool accessible;
+    //[Header("Location Tracking Info")]
+    //[SerializeField] public bool clear;
+    //[SerializeField] public bool available;
+    //[SerializeField] public bool accessible;
 
     [Header("GUID Identification String - Must Be Generated Once")]
     [SerializeField] public string id;

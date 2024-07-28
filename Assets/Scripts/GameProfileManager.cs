@@ -93,15 +93,6 @@ public class GameProfileManager : ScriptableObject
         return _opts;
     }
 
-    public bool is_stage_available(string location_guid)
-    {
-        return location_data_dict[location_guid].available;
-    }
-
-    public bool is_stage_clear(string location_guid)
-    {
-        return location_data_dict[location_guid].clear;
-    }
     public void move_location_to_selected()
     {
         this.current_location_guid = selected_location_guid;

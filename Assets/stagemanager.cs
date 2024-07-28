@@ -12,11 +12,15 @@ public class stagemanager : MonoBehaviour
     private readonly GameSceneManager GSM = new();
     public void set_clear()
     {
-        associated_location.clear = true;
+        // get pin from the still loaded GameDataManager
+        // find the pin with the same associated location
+        // set the cleared value to true
     }
     public void set_false()
     {
-        associated_location.clear = false;
+        // get pin from the still loaded GameDataManager
+        // find the pin with the same associated location
+        // set the cleared value to false
     }
 
     public void load_worldmap()

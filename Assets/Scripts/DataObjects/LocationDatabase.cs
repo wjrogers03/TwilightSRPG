@@ -42,19 +42,25 @@ public class LocationDatabase : MonoBehaviour, IDataPersistence
     public void Awake()
     {
 
-        List<LocationData> location_objects_list = FindAllLocationDataAssets(); // does not change over the course of a game.
-        location_objects_dict = BuildLocationsDictionary(location_objects_list);
+        //List<LocationData> location_objects_list = FindAllLocationDataAssets(); // does not change over the course of a game.
+        //location_objects_dict = BuildLocationsDictionary(location_objects_list);
 
         if (newGameSet != true)
         {
+            Debug.Log("***NEW GAME***");
             reset_location_new_game();
             this.newGameSet = true;
         }
 
 
 
-        GPM.pass_location_dict(location_objects_dict);
+        //GPM.pass_location_dict(location_objects_dict);
         send_world_pins_to_gdm();
+    }
+
+    private void Start()
+    {
+        
     }
 
     public void send_location_dict_to_gdm()
@@ -81,6 +87,7 @@ public class LocationDatabase : MonoBehaviour, IDataPersistence
     {
         // this may not even be needed, but figured i wouldn't muck around with too much here...
         sDict<string, LocationData> _outputDict = new sDict<string, LocationData>();
+        
         foreach (LocationData _location in input_list)
         {
             if (_location.id == null)

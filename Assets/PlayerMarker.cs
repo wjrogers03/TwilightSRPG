@@ -72,7 +72,6 @@ public class PlayerMarker : MonoBehaviour
         // get pins from gdm
         // find the pin that is occupied
         // move the player marker & camera there.
-        Debug.Log("world_map_pin order: 3");
         // lets do a double loop, becuase I loooooooove that.
 
         foreach (LocationPinObect pin in GameDataManager.instance.world_map_pins.Values)
@@ -107,6 +106,7 @@ public class PlayerMarker : MonoBehaviour
                 }
             }
         }
+    
     }
 
 

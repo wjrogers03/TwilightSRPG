@@ -29,6 +29,7 @@ public class WorldMenuFactory : MonoBehaviour
     public List<WorldMenuAction> actions;
     [HideInInspector]
     public string CanvasTitle;
+    [HideInInspector] public List<GameObject> active_buttons;
 
     public Action get_callback(string label)
     {
@@ -57,6 +58,20 @@ public class WorldMenuFactory : MonoBehaviour
         return callback;
     }
 
+    public int fetch_index_of_button(GameObject requested_button)
+    {
+        for (int i = 0; i < active_buttons.Count; i++) 
+        {
+            GameObject button = active_buttons[i];
+            if (button.gameObject == requested_button.gameObject)
+            {
+                return i;
+            }
+        }
+        Debug.LogWarning("Fetching a button that isnt in the list is bad.");
+        return 0;
+    }
+
     public void clear_canvas()
     {
         actions = new();
@@ -70,7 +85,15 @@ public class WorldMenuFactory : MonoBehaviour
         {
             foreach (Button button in buttons)
             {
-                DestroyImmediate(button.gameObject);
+                if (button.gameObject.GetComponent<LocationMenuSelector>() != null)
+                {
+                    continue;
+                }
+                else
+                {
+                    DestroyImmediate(button.gameObject);
+                }
+                
             }
         }
         // buttons contain tmp_text so the above method finds them, this is just proper ordering.
@@ -86,9 +109,11 @@ public class WorldMenuFactory : MonoBehaviour
 
     public void build_menu()
     {
+        active_buttons.Clear();
+
         GameObject title_text = AddTitle(CanvasTitle,
             reference_pin.gameObject.transform.position.x + x_offset,
-            reference_pin.gameObject.transform.position.y + btnHeight);
+            reference_pin.gameObject.transform.position.y + btnHeight+y_offset);
 
         int btnCount = 0;
 
@@ -100,6 +125,8 @@ public class WorldMenuFactory : MonoBehaviour
             //float btn_y = -1f*(btnHeight * y_offset);
 
             GameObject abutton = AddButton(wma.display_name, btn_x, btn_y, get_callback(wma.callback_name));
+            abutton.name = wma.callback_name;
+            active_buttons.Add(abutton);
             btnCount += 1;
         }
     }

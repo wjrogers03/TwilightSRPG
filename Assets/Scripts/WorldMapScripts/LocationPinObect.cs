@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -24,11 +25,20 @@ public class LocationPinObect : MonoBehaviour
 
     [Header("location information")]
     [SerializeField] public LocationData associated_location;
-    [SerializeField] public List<GameObject> connected_locations = new();
+    [HideInInspector] public List<GameObject> connected_locations = new();
     [SerializeField] public bool player_occupied = false;
 
-    #region Exploring struct storage for iterative serialization
-
+    [Serializable]
+    public struct DirectionalLocationConnections
+    {
+        public GameObject location_left;
+        public GameObject location_right;
+        public GameObject location_up;
+        public GameObject location_down;
+    }
+    [SerializeField] public DirectionalLocationConnections connectedLocations;
+    
+    
     [Serializable]
     public struct PersistantInfo
     {
@@ -39,10 +49,7 @@ public class LocationPinObect : MonoBehaviour
         public bool accessible; // is visible
     }
     [Header("Persistent Info")]
-    [SerializeField]
-    public PersistantInfo locationInfo;
-    #endregion
-
+    [SerializeField] public PersistantInfo locationInfo;
     [SerializeField] public string pin_guid;
     [ContextMenu("Generate Pin GUID")] // needed for tracking current position.
     public void GenerateGUID()
@@ -72,7 +79,7 @@ public class LocationPinObect : MonoBehaviour
     public void onOccupied()
     {
         this.player_occupied = true;
-        GameDataManager.instance.playerData.persistantInfo.world_location_id = location_guid;
+        GameDataManager.instance.playerData.persistantInfo.world_pin_guid = this.pin_guid;
         //Debug.Log(this.player_occupied);
     }
 
@@ -102,7 +109,7 @@ public class LocationPinObect : MonoBehaviour
         // update selected pin position in WMM
         WMFactory.clear_canvas();
         WMFactory.reference_pin = this;
-        WMFactory.CanvasTitle = this.associated_location.name; // this also may not be needed since i'm passing the pin.
+        WMFactory.CanvasTitle = this.associated_location.Name; // this also may not be needed since i'm passing the pin.
         // I'm playing around with switches just as a learning exercise, if/else is probably better with how linear this logic is.
         List<WorldMenuAction> _tempAction = new();
         switch (this.player_occupied)
@@ -153,7 +160,7 @@ public class LocationPinObect : MonoBehaviour
 
         foreach (GameObject connected_pin in this.connected_locations)
         {
-            if (!connected_pin.gameObject.GetComponent<LocationPinObect>().associated_location.available)
+            if (!connected_pin.gameObject.GetComponent<LocationPinObect>().locationInfo.available)
             {
                 continue;
             }
@@ -162,7 +169,6 @@ public class LocationPinObect : MonoBehaviour
             Tuple<string,string> check_tuple = new Tuple<string,string>(this_guid, connected_guid);
             if (LDB.completed_connections.Contains(flip_connection_order(check_tuple)) || LDB.completed_connections.Contains(check_tuple))
             {
-                Debug.Log("already connected");
             }
             else
             {
@@ -261,12 +267,34 @@ public class LocationPinObect : MonoBehaviour
         }
     }
 
+    public List<GameObject> directional_locations_to_list()
+    {
+        List<GameObject> _list = new List<GameObject>();
+        if (connectedLocations.location_up != null)
+        {
+            _list.Add(connectedLocations.location_up);
+        }
+        if (connectedLocations.location_down != null)
+        {
+            _list.Add(connectedLocations.location_down);
+        }
+        if (connectedLocations.location_right != null)
+        {
+            _list.Add(connectedLocations.location_right);
+        }
+        if (connectedLocations.location_left != null)
+        {
+            _list.Add(connectedLocations.location_left);
+        }
+
+        return _list;
+    }
+
     private void Awake()
     {
         location_guid = associated_location.id;
-
+        this.connected_locations = directional_locations_to_list();
         // check if the pin is in the GDM
-        Debug.Log("world_map_pin order: 2");
         //if (GameDataManager.instance.world_map_pins.ContainsKey(location_guid))
         //{
         //    // why would the pin be in the GDM when the pin wakes up?
@@ -275,7 +303,7 @@ public class LocationPinObect : MonoBehaviour
         //    this.locationInfo = GameDataManager.instance.world_map_pins[location_guid].locationInfo; // how is this not circular? I need to rethink my entire data persistence strat.
         //    update_pin_status();
         //}
-        
+
 
 
         // Attach to LocationDatabase (Passes to LDB which then passes to GDM... why not just pass to GDM?
@@ -293,12 +321,12 @@ public class LocationPinObect : MonoBehaviour
     {
         // ironically, not to be called during Awake...
         //GameDataManager GDM = GameDataManager.instance;
-        Debug.Log("Checking if the player is supposed to be here or not...");
-        string where_the_player_is = GameDataManager.instance.playerData.persistantInfo.world_location_id;
-        if (associated_location.id == where_the_player_is)
+        
+        
+        string where_the_player_is = GameDataManager.instance.playerData.persistantInfo.world_pin_guid;
+        if (this.pin_guid == where_the_player_is)
         {
-            Debug.Log("The player should be here, and this should only appear once in the log");
-            Debug.Log(where_the_player_is);
+            //Debug.Log("The player is: " + where_the_player_is);
             this.player_occupied = true;
         }
         else

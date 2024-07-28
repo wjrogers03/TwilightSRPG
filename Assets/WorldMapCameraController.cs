@@ -5,6 +5,7 @@ using UnityEngine;
 public class WorldMapCameraController : MonoBehaviour
 {
     [SerializeField] GameObject player_marker;
+    [SerializeField] GameObject selector_marker;
     [SerializeField] public bool follow_player;
     // Start is called before the first frame update
     
@@ -15,6 +16,10 @@ public class WorldMapCameraController : MonoBehaviour
         if (follow_player)
         {
             move_camera(player_marker.gameObject.transform.position);
+        }
+        else
+        {
+            move_camera(selector_marker.gameObject.transform.position);
         }
     }
 

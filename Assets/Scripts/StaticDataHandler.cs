@@ -28,7 +28,6 @@ public class StaticDataHandler: MonoBehaviour
     
     public void Awake()
     {
-        Debug.Log("SDH started...");
         if (instance != null)
         {
             Debug.LogWarning("StaticDataHandler: Found more than one DPM in scene, destroying newest object.");

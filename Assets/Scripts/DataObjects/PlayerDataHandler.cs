@@ -11,7 +11,7 @@ public class PlayerDataHandler : MonoBehaviour, IDataPersistence
         public string name;
         public int deathcount;
         public int currency;
-        public string world_location_id;
+        public string world_pin_guid;
     }
     [SerializeField]
     public PersistantInfo persistantInfo;
