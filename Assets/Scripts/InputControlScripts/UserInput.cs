@@ -88,7 +88,8 @@ public class UserInput : MonoBehaviour
                         }
                         location_menu_selector.GetComponent<LocationMenuSelector>().current_button = btns[0];
                         location_menu_selector.GetComponent<LocationMenuSelector>().assign_destination(btns[0].transform.localPosition);
-                        location_menu_selector.GetComponent<LocationMenuSelector>().onInput();
+                        //location_menu_selector.GetComponent<LocationMenuSelector>().onInput();
+                        location_menu_selector.GetComponent<LocationMenuSelector>().jump_to_destination();
                         this.selection_layer = "location";
                         // set the location selector to active.
                     }
@@ -129,8 +130,10 @@ public class UserInput : MonoBehaviour
 
                     GameObject nextbutton = btns[destination_index];
                     //Debug.Log(nextbutton.name);
+                    
                     location_menu_selector.GetComponent<LocationMenuSelector>().current_button = nextbutton;
                     location_menu_selector.GetComponent<LocationMenuSelector>().assign_destination(nextbutton.transform.localPosition);
+                    
                     location_menu_selector.GetComponent<LocationMenuSelector>().onInput();
                 }
                 if (Input.GetKeyDown(KeyCode.Return))
