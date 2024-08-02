@@ -12,6 +12,7 @@ public class InventoryDisplay : MonoBehaviour
     [SerializeField] InventoryCell ItemPrefab;
     [SerializeField] GameObject ViewPortContent;
     [SerializeField] GameObject ItemArt_object;
+    [SerializeField] GameObject ItemTitle_object;
     [SerializeField] GameObject ItemDescription_object;
     [SerializeField] GameObject ItemAddtlInfo_object;
 
@@ -28,12 +29,73 @@ public class InventoryDisplay : MonoBehaviour
     [HideInInspector]
     public List<Item> warehouse_list;
     List<InventoryCell> inventoryCells;
+    
     public void Start()
     {
         warehouse_list = Inventory.instance.warehouse; // the warehouse is sourced on awake.
         foreach (Item item in warehouse_list)
         {
             create_inventory_cell(item);
+        }
+        Inventory.instance.menu_selected_item = warehouse_list[0];
+        update_art_asset(warehouse_list[0]);
+        update_description_asset(warehouse_list[0]);
+        update_item_title_asset(warehouse_list[0]);
+        Inventory.instance.onUpdateAssets();
+    }
+
+    public void cell_toggle(string itemType)
+    {
+        // I think the enum overcomplicates things here, itemType should really have been a string...
+        var refer = ItemType.Default;
+        if (itemType == "consumable")
+        {
+            refer = ItemType.Consumable;
+        }
+        else if (itemType == "equipment")
+        {
+            refer = ItemType.Equipment;
+        }
+        else if (itemType == "material")
+        {
+            refer = ItemType.Material;
+        }
+        else
+        {
+            Debug.Log("No reference type passed to cell_toggle");
+            return;
+        }
+
+        foreach (InventoryCell cell in inventoryCells)
+        {
+            if (cell.associated_item.type == refer)
+            {
+                cell.gameObject.SetActive(true);
+            }
+            else
+            {
+                cell.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void ApplyFilter(string itemtype)
+    {
+        // Consumable,
+        // Equipment,
+        //        Material,
+
+
+        if (itemtype == "all")
+        {
+            foreach (InventoryCell cell in inventoryCells)
+            {
+                cell.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            cell_toggle(itemtype);
         }
     }
 
@@ -42,6 +104,7 @@ public class InventoryDisplay : MonoBehaviour
         InventoryCell cell = Instantiate(ItemPrefab, ViewPortContent.transform);
         cell.name = item.name;
         cell.associated_item = item;
+        cell.onCreation();
         inventoryCells.Add(cell);
     }
 
@@ -50,6 +113,10 @@ public class InventoryDisplay : MonoBehaviour
         if (item.artL != null)
         {
             ItemArt_object.GetComponent<Image>().sprite = item.artL;
+        }
+        else if (item.artM != null)
+        {
+            ItemArt_object.GetComponent<Image>().sprite = item.artM;
         }
     }
     public void update_description_asset(Item item)
@@ -62,7 +129,10 @@ public class InventoryDisplay : MonoBehaviour
 
     public void update_item_title_asset(Item item)
     {
-        if (item.item_name != null) { }
+        if (item.item_name != null)
+        {
+            ItemTitle_object.GetComponent<TMP_Text>().text = item.item_name;
+        }
     }
 
     public void Update()

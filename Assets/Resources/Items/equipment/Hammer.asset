@@ -17,7 +17,7 @@ MonoBehaviour:
   type: 1
   item_id: 
   consumable: 0
-  artM: 
-  artL: 
+  artM: {fileID: 67065264, guid: 8d159e786b3a4f4498c210b7d17bf807, type: 3}
+  artL: {fileID: 0}
   unique_guid: 
   quantity: 0

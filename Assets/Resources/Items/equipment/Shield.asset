@@ -17,7 +17,44 @@ MonoBehaviour:
   type: 1
   item_id: 
   consumable: 0
-  artM: 
-  artL: 
+  effect: 
+  artM: {fileID: 979681972, guid: 6cf4ceba54a75274496ea06ec66df572, type: 3}
+  artL: {fileID: 0}
   unique_guid: 
   quantity: 0
+  item_level: 1
+  level_scaling: 0.1
+  weaponProps:
+    physical: 0
+    magical: 0
+    fire: 0
+    cold: 0
+    lightning: 0
+    light: 0
+    dark: 0
+  armorProps:
+    physical: 0
+    magical: 0
+    fire: 0
+    light: 0
+    ice: 0
+    dark: 0
+  reqs:
+    strength: 0
+    dexterity: 0
+    intelligence: 0
+    faith: 0
+  bonusStats:
+    health: 0
+    mana: 0
+    stamina: 0
+    strength: 0
+    constitution: 0
+    vitality: 0
+    mind: 0
+    dexterity: 0
+  statScales:
+    strength: 0
+    dexterity: 0
+    intelligence: 0
+    faith: 0
