@@ -24,6 +24,7 @@ public class LocationMenuSelector : MonoBehaviour
 
     public void jump_to_destination()
     {
+        Debug.Log("Jumping immediately to"+ this.destination_location);
         this.transform.localPosition = this.destination_location;
     }
 

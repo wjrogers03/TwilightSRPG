@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc9e292798d38b7459d2f652f3990135, type: 3}
+  m_Name: Shield
+  m_EditorClassIdentifier: 
+  item_name: Shield
+  item_description: A Shield
+  type: 1
+  item_id: 
+  consumable: 0
+  effect: 
+  artM: {fileID: 979681972, guid: 6cf4ceba54a75274496ea06ec66df572, type: 3}
+  artL: {fileID: 0}
+  unique_guid: 
+  quantity: 0
+  item_level: 1
+  level_scaling: 0.1
+  weaponProps:
+    physical: 0
+    magical: 0
+    fire: 0
+    cold: 0
+    lightning: 0
+    light: 0
+    dark: 0
+  armorProps:
+    physical: 0
+    magical: 0
+    fire: 0
+    light: 0
+    ice: 0
+    dark: 0
+  reqs:
+    strength: 0
+    dexterity: 0
+    intelligence: 0
+    faith: 0
+  bonusStats:
+    health: 0
+    mana: 0
+    stamina: 0
+    strength: 0
+    constitution: 0
+    vitality: 0
+    mind: 0
+    dexterity: 0
+  statScales:
+    strength: 0
+    dexterity: 0
+    intelligence: 0
+    faith: 0
