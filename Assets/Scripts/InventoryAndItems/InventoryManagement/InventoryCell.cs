@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class InventoryCell : MonoBehaviour, IPointerClickHandler
+public class InventoryCell : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler
 {
     [SerializeField] public Item associated_item;
+    public GameObject factory_reference;
 
     public void onCreation()
     {
@@ -17,17 +18,32 @@ public class InventoryCell : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void onSelect()
+    public void onHover()
     {
         if (Inventory.instance != null)
         {
             Inventory.instance.menu_selected_item = associated_item;
             Inventory.instance.onUpdateSelection();
         }
-        Debug.Log(associated_item.item_description);
     }
+
+    public void onSelect()
+    {
+        // do selection actions
+        if (Inventory.instance != null)
+        {
+            Inventory.instance.menu_selected_item = associated_item;
+            Inventory.instance.onUpdateSelection();
+        }
+    }
+
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
     {
         onSelect();
+    }
+
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+    {
+        onHover();
     }
 }

@@ -7,10 +7,10 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory instance { get; private set; }
     public List<Item> warehouse = new();
+    
     public Dictionary<string, Item> stock = new Dictionary<string, Item>();
     public Item menu_selected_item;
     public bool update_art_assets = true;
-
 
     public void onUpdateAssets()
     {

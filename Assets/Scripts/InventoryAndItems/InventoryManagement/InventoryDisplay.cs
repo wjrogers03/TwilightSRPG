@@ -29,10 +29,14 @@ public class InventoryDisplay : MonoBehaviour
     [HideInInspector]
     public List<Item> warehouse_list;
     List<InventoryCell> inventoryCells;
+
+    public List<InventoryCell> activeCells = new();
     
+
     public void Start()
     {
         warehouse_list = Inventory.instance.warehouse; // the warehouse is sourced on awake.
+        // eventually this warehouse reference will be switched to inventory.stock
         foreach (Item item in warehouse_list)
         {
             create_inventory_cell(item);
@@ -42,6 +46,7 @@ public class InventoryDisplay : MonoBehaviour
         update_description_asset(warehouse_list[0]);
         update_item_title_asset(warehouse_list[0]);
         Inventory.instance.onUpdateAssets();
+        position_marker.GetComponent<InventoryMenuSelector>().assign_target(activeCells[0].gameObject);
     }
 
     public void cell_toggle(string itemType)
@@ -71,6 +76,7 @@ public class InventoryDisplay : MonoBehaviour
             if (cell.associated_item.type == refer)
             {
                 cell.gameObject.SetActive(true);
+                activeCells.Add(cell);
             }
             else
             {
@@ -81,22 +87,27 @@ public class InventoryDisplay : MonoBehaviour
 
     public void ApplyFilter(string itemtype)
     {
-        // Consumable,
-        // Equipment,
-        //        Material,
-
-
+        activeCells.Clear();
         if (itemtype == "all")
         {
             foreach (InventoryCell cell in inventoryCells)
             {
                 cell.gameObject.SetActive(true);
+                activeCells.Add(cell);
             }
         }
         else
         {
             cell_toggle(itemtype);
         }
+    }
+
+    public void update_display(Item item)
+    {
+        update_art_asset(item);
+        update_description_asset(item);
+        update_item_title_asset(item);
+        Inventory.instance.onUpdateAssets(); // why is this in the Inventory?
     }
 
     public void create_inventory_cell(Item item)
@@ -106,6 +117,7 @@ public class InventoryDisplay : MonoBehaviour
         cell.associated_item = item;
         cell.onCreation();
         inventoryCells.Add(cell);
+        activeCells.Add(cell);
     }
 
     public void update_art_asset(Item item)
