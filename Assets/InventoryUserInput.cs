@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
+//using UnityEngine.UIElements;
 
 public class InventoryUserInput : MonoBehaviour
 {
@@ -17,6 +17,8 @@ public class InventoryUserInput : MonoBehaviour
     [SerializeField] public GameObject bottomMarker;
     [SerializeField] public float scrollStep = 0.1f;
     [SerializeField] public int cellHeight;
+    [SerializeField] public List<GameObject> filterTabs;
+    public int filterIndex = 0;
     //scrollView.FocusOnItem(targetItem)
     private Inventory inventory;
     public int currentCell = 0;
@@ -28,15 +30,11 @@ public class InventoryUserInput : MonoBehaviour
 
     public void move_pointer()
     {
-        //move_scrollView();
         // assign a destination
         menu_pointer.GetComponent<InventoryMenuSelector>().assign_target(inventoryDisplay.activeCells[currentCell].gameObject);
-        //menu_pointer.GetComponent<InventoryMenuSelector>().assign_destination(inventoryDisplay.activeCells[currentCell].transform.localPosition);
         // unlock movement
         menu_pointer.GetComponent<InventoryMenuSelector>().onInput();
-        //menu_pointer.gameObject.transform.localPosition = inventoryDisplay.activeCells[currentCell].transform.localPosition;
         inventoryDisplay.update_display(inventoryDisplay.activeCells[currentCell].associated_item);
-        //ScrollTo(inventoryDisplay.activeCells[currentCell].gameObject.transform);
     }
 
 
@@ -125,7 +123,7 @@ public class InventoryUserInput : MonoBehaviour
             currentCell = currentCell - 4;
             if (currentCell < 0)
             {
-                currentCell = (inventoryDisplay.activeCells.Count - 1) + currentCell%4;
+                currentCell = (inventoryDisplay.activeCells.Count - 1); // wrapping is strange, saving this for later.
             }
             
             move_pointer();
@@ -161,6 +159,31 @@ public class InventoryUserInput : MonoBehaviour
         move_pointer();
     }
 
+
+    public void InventoryTabControls()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            filterIndex += 1;
+            if (filterIndex > (filterTabs.Count-1))
+            {
+                filterIndex = 0;
+            }
+            filterTabs[filterIndex].GetComponent<Button>().onClick.Invoke();
+            filterTabs[filterIndex].GetComponent<Button>().Select();
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            filterIndex -= 1;
+            if (filterIndex < 0)
+            {
+                filterIndex = (filterTabs.Count - 1);
+            }
+            filterTabs[filterIndex].GetComponent<Button>().onClick.Invoke();
+            filterTabs[filterIndex].GetComponent<Button>().Select();
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -175,6 +198,7 @@ public class InventoryUserInput : MonoBehaviour
             Debug.Log(inventoryDisplay.activeCells[currentCell].associated_item.item_name);
         }
         pointer_movement();
+        InventoryTabControls();
         
     }
     private void LateUpdate()

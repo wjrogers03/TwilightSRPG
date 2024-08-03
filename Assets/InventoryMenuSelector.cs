@@ -77,7 +77,7 @@ public class InventoryMenuSelector : MonoBehaviour
             if (useTargeting)
             {
                 assign_destination(destination_object.transform.position);
-                Debug.Log("Moving Cursor to target: " + destination_object.transform.position);
+                //Debug.Log("Moving Cursor to target: " + destination_object.transform.position);
             }
             //this.transform.localPosition = Vector3.MoveTowards(this.transform.localPosition, this.destination_location, step);
             this.transform.position = Vector3.MoveTowards(this.transform.position, this.destination_location, step);
